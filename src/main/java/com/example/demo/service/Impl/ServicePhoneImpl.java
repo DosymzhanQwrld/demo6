@@ -16,7 +16,7 @@ public class ServicePhoneImpl implements PhoneService {
     private final PhoneRepository phoneRepository;
     private final PhoneMapper phoneMapper;
     @Override
-    public List getAll() {
+    public List<PhoneDto> getAll() {
         return phoneMapper.toDtoList(phoneRepository.findAll());
     }
 
@@ -32,11 +32,13 @@ public class ServicePhoneImpl implements PhoneService {
 
     @Override
     public void updPhone(Long id, PhoneDto phoneDto) {
-        Phone phone = phoneRepository.findById(id).orElse(null);
+        Phone phone = phoneRepository.findById(id).orElseThrow();
         Phone phoneEntity = phoneMapper.toEntity(phoneDto);
         phone.setName(phoneDto.getNameDto());
         phone.setDescription(phoneDto.getDescriptionDto());
         phone.setPrice(phoneDto.getPriceDto());
+
+
 
         phone.setBrand(phoneEntity.getBrand());
         phone.setCountries(phoneEntity.getCountries());
